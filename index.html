@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Social Media Trend Analyzer</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4a90e2;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            text-align: left;
+            width: 600px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 12px 0;
+            padding: 10px;
+            background-color: #f0f7ff;
+            border-left: 5px solid #4a90e2;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Social Media Trend Analyzer</h1>
+    <form action="/analyze" method="POST">
+        <input type="text" name="hashtag" placeholder="Enter a hashtag (e.g. #AI)" required>
+        <input type="submit" value="Analyze">
+    </form>
+
+    {% if hashtag %}
+    <div class="result">
+        {% if result %}
+            <h2>Hashtag Found: {{ hashtag }}</h2>
+            <p><strong>📈 Rank:</strong> {{ rank }}</p>
+            <p><strong>📝 Information:</strong> {{ info }}</p>
+        {% else %}
+            <h2>'{{ hashtag }}' Not Available</h2>
+            {% if suggestions %}
+                <p><strong>🔍 Suggested Related Hashtags:</strong></p>
+                <ul>
+                    {% for suggestion in suggestions %}
+                        <li>
+                            <strong>{{ suggestion.hashtag }}</strong> (Rank: {{ suggestion.rank }})<br>
+                            {{ suggestion.info }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No related hashtags found. Try a different keyword.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
